@@ -5,6 +5,11 @@ const connectDB = require("./config/db");
 connectDB();
 
 const app = express();
+app.use(express.json());
+
+const usersRoute = require("./routes/users.route");
+
+app.use("/api/users", usersRoute);
 
 const PORT = process.env.PORT || 5000;
 
