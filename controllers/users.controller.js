@@ -161,7 +161,7 @@ exports.updateUser = async (req, res) => {
         }
 
         if (!updatedUser) {
-          return res.status(400).json({ error: ["User not found"] });
+          return res.status(404).json({ error: ["User not found"] });
         } else {
           return res
             .status(200)

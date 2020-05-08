@@ -19,7 +19,7 @@ exports.getUser = async (req, res) => {
 
 // @desc    Authenticate user & get token
 // @route   POST /api/auth
-// @access  Private
+// @access  Public
 exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;

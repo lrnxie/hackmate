@@ -5,13 +5,12 @@ const connectDB = require("./config/db");
 connectDB();
 
 const app = express();
+
 app.use(express.json());
 
-const usersRoute = require("./routes/users.route");
-const authRoute = require("./routes/auth.route");
-
-app.use("/api/users", usersRoute);
-app.use("/api/auth", authRoute);
+app.use("/api/users", require("./routes/users.route"));
+app.use("/api/auth", require("./routes/auth.route"));
+app.use("/api/profile", require("./routes/profile.route"));
 
 const PORT = process.env.PORT || 5000;
 
