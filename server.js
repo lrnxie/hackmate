@@ -8,8 +8,10 @@ const app = express();
 app.use(express.json());
 
 const usersRoute = require("./routes/users.route");
+const authRoute = require("./routes/auth.route");
 
 app.use("/api/users", usersRoute);
+app.use("/api/auth", authRoute);
 
 const PORT = process.env.PORT || 5000;
 

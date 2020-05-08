@@ -1,4 +1,5 @@
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
 // @desc    Get all users
@@ -50,7 +51,16 @@ exports.addUser = async (req, res) => {
 
     await newUser.save();
 
-    return res.status(201).json({ msg: "New user sign up success" });
+    // Get token from jwt
+    jwt.sign(
+      { userId: newUser.id },
+      process.env.JWT_KEY,
+      { expiresIn: "2d" },
+      (err, token) => {
+        if (err) throw err;
+        return res.status(201).json({ msg: "New user sign up success", token });
+      }
+    );
   } catch (err) {
     if (err.name === "ValidationError") {
       const errMsg = Object.values(err.errors).map((val) => val.message);
