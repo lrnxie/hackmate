@@ -44,7 +44,7 @@ exports.loginUser = async (req, res) => {
     jwt.sign(
       { userId: user.id },
       process.env.JWT_KEY,
-      { expiresIn: "2d" },
+      { expiresIn: "1d" },
       (err, token) => {
         if (err) throw err;
         return res.status(201).json({ msg: "Log in success", token });

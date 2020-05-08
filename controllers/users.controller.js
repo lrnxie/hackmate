@@ -55,7 +55,7 @@ exports.addUser = async (req, res) => {
     jwt.sign(
       { userId: newUser.id },
       process.env.JWT_KEY,
-      { expiresIn: "2d" },
+      { expiresIn: "1d" },
       (err, token) => {
         if (err) throw err;
         return res.status(201).json({ msg: "New user sign up success", token });
@@ -81,6 +81,12 @@ exports.addUser = async (req, res) => {
 // @access  Private
 exports.deleteUser = async (req, res) => {
   try {
+    // Only allow user to delete his own account
+    const authUserId = req.userId;
+    if (req.params.userId !== authUserId) {
+      return res.status(401).json({ error: ["Authorization denied"] });
+    }
+
     const user = await User.findById(req.params.userId);
 
     if (!user) {
@@ -107,6 +113,12 @@ exports.deleteUser = async (req, res) => {
 // @access  Private
 exports.updateUser = async (req, res) => {
   try {
+    // Only allow user to update his own info
+    const authUserId = req.userId;
+    if (req.params.userId !== authUserId) {
+      return res.status(401).json({ error: ["Authorization denied"] });
+    }
+
     const { name, password } = req.body;
     let updatedInfo;
 
