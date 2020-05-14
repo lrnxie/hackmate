@@ -1,5 +1,6 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Link as RouterLink } from "react-router-dom";
+import { connect } from "react-redux";
 
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -17,8 +18,28 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Navbar = () => {
+const Navbar = ({ isAuthenticated, loading }) => {
   const classes = useStyles();
+
+  const links = isAuthenticated ? (
+    <Fragment>
+      <Button component={RouterLink} to="/" color="inherit">
+        User
+      </Button>
+      <Button component={RouterLink} to="/" color="inherit">
+        Log Out
+      </Button>
+    </Fragment>
+  ) : (
+    <Fragment>
+      <Button component={RouterLink} to="/login" color="inherit">
+        Log In
+      </Button>
+      <Button component={RouterLink} to="/signup" color="inherit">
+        Sign Up
+      </Button>
+    </Fragment>
+  );
 
   return (
     <div className={classes.root}>
@@ -34,16 +55,16 @@ const Navbar = () => {
               Hackmate
             </Link>
           </Typography>
-          <Button component={RouterLink} to="/login" color="inherit">
-            Log In
-          </Button>
-          <Button component={RouterLink} to="/signup" color="inherit">
-            Sign Up
-          </Button>
+          {!loading && links}
         </Toolbar>
       </AppBar>
     </div>
   );
 };
 
-export default Navbar;
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+  loading: state.auth.loading,
+});
+
+export default connect(mapStateToProps)(Navbar);

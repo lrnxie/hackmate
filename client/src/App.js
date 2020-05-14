@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { connect } from "react-redux";
 
 import Navbar from "./components/layout/Navbar";
 import Alerts from "./components/layout/Alerts";
@@ -7,7 +8,15 @@ import Home from "./components/layout/Home";
 import LogIn from "./components/auth/LogIn";
 import SignUp from "./components/auth/SignUp";
 
-function App() {
+import setAuthToken from "./utils/setAuthToken";
+import { loadUser } from "./actions/auth";
+
+function App({ loadUser }) {
+  useEffect(() => {
+    setAuthToken(localStorage.token);
+    loadUser();
+  });
+
   return (
     <BrowserRouter>
       <Navbar />
@@ -21,4 +30,4 @@ function App() {
   );
 }
 
-export default App;
+export default connect(null, { loadUser })(App);

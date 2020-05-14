@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import { logIn } from "../../actions/auth";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -27,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const LogIn = () => {
+const LogIn = ({ logIn, isAuthenticated }) => {
   const classes = useStyles();
   const [formData, setFormData] = useState({
     email: "",
@@ -69,10 +72,14 @@ const LogIn = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateEmail(email) && validatePassword(password)) {
-      console.log({ email });
+      logIn(email, password);
       setFormData({ email: "", password: "" });
     }
   };
+
+  if (isAuthenticated) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <div className={classes.root}>
@@ -119,4 +126,8 @@ const LogIn = () => {
   );
 };
 
-export default LogIn;
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { logIn })(LogIn);
