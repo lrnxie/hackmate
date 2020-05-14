@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import { signUp } from "../../actions/auth";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -27,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SignUp = () => {
+const SignUp = ({ signUp, isAuthenticated }) => {
   const classes = useStyles();
   const [formData, setFormData] = useState({
     name: "",
@@ -98,10 +101,14 @@ const SignUp = () => {
       validatePassword(password) &&
       validatePassword2(password, password2)
     ) {
-      console.log({ name, email });
+      signUp(name, email, password);
       setFormData({ name: "", email: "", password: "", password2: "" });
     }
   };
+
+  if (isAuthenticated) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <div className={classes.root}>
@@ -173,4 +180,8 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { signUp })(SignUp);
