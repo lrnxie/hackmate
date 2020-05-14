@@ -2,6 +2,7 @@ import {
   USER_LOADED,
   LOGIN_SUCCESS,
   SIGNUP_SUCCESS,
+  LOGOUT,
   AUTH_ERROR,
 } from "../actions/actionTypes";
 
@@ -40,6 +41,7 @@ export default function (state = initialState, action) {
         loading: false,
       };
 
+    case LOGOUT:
     case AUTH_ERROR:
       return {
         ...state,

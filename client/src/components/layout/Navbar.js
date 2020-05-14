@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { connect } from "react-redux";
+import { logOut } from "../../actions/auth";
 
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -8,6 +9,11 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
 import Button from "@material-ui/core/Button";
+import Avatar from "@material-ui/core/Avatar";
+import Tooltip from "@material-ui/core/Tooltip";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -18,17 +24,32 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Navbar = ({ isAuthenticated, loading }) => {
+const Navbar = ({ isAuthenticated, loading, user, logOut }) => {
   const classes = useStyles();
+
+  const list = (
+    <List>
+      <ListItem button component={RouterLink} to="/profile">
+        <ListItemText primary="Profile" />
+      </ListItem>
+      <ListItem button component={RouterLink} to="/user">
+        <ListItemText primary="Account" />
+      </ListItem>
+      <ListItem button onClick={logOut} component={RouterLink} to="/login">
+        <ListItemText primary="Log Out" />
+      </ListItem>
+    </List>
+  );
 
   const links = isAuthenticated ? (
     <Fragment>
-      <Button component={RouterLink} to="/" color="inherit">
-        User
-      </Button>
-      <Button component={RouterLink} to="/" color="inherit">
-        Log Out
-      </Button>
+      {user && (
+        <Tooltip arrow interactive title={list}>
+          <Button component={RouterLink} to="/" color="inherit">
+            {<Avatar>{user.name[0]}</Avatar>}
+          </Button>
+        </Tooltip>
+      )}
     </Fragment>
   ) : (
     <Fragment>
@@ -65,6 +86,7 @@ const Navbar = ({ isAuthenticated, loading }) => {
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   loading: state.auth.loading,
+  user: state.auth.user,
 });
 
-export default connect(mapStateToProps)(Navbar);
+export default connect(mapStateToProps, { logOut })(Navbar);

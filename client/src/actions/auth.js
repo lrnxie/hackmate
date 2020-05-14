@@ -4,6 +4,7 @@ import {
   USER_LOADED,
   LOGIN_SUCCESS,
   SIGNUP_SUCCESS,
+  LOGOUT,
   AUTH_ERROR,
 } from "./actionTypes";
 
@@ -81,4 +82,8 @@ export const signUp = (name, email, password) => async (dispatch) => {
       type: AUTH_ERROR,
     });
   }
+};
+
+export const logOut = () => (dispatch) => {
+  dispatch({ type: LOGOUT });
 };
