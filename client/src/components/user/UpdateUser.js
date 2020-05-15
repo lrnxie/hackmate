@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
+
 import { updateUser } from "../../actions/auth";
+import DeleteUser from "./DeleteUser";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -160,9 +162,8 @@ const UpdateUser = ({ isAuthenticated, loading, user, updateUser }) => {
             Update
           </Button>
         </form>
-        <Button className={classes.button} variant="outlined" color="secondary">
-          Delete my account
-        </Button>
+
+        <DeleteUser />
       </div>
     )
   );

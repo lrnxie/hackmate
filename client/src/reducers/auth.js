@@ -5,6 +5,7 @@ import {
   LOGOUT,
   AUTH_ERROR,
   UPDATE_USER,
+  DELETE_USER,
   UPDATE_ERROR,
 } from "../actions/actionTypes";
 
@@ -38,12 +39,13 @@ export default function (state = initialState, action) {
     case SIGNUP_SUCCESS:
       return {
         ...state,
-        ...payload,
+        token: payload,
         isAuthenticated: true,
         loading: false,
       };
 
     case LOGOUT:
+    case DELETE_USER:
     case AUTH_ERROR:
       return {
         ...state,

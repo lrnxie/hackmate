@@ -7,6 +7,7 @@ import {
   LOGOUT,
   AUTH_ERROR,
   UPDATE_USER,
+  DELETE_USER,
   UPDATE_ERROR,
 } from "./actionTypes";
 
@@ -68,7 +69,7 @@ export const signUp = (name, email, password) => async (dispatch) => {
 
     dispatch({
       type: SIGNUP_SUCCESS,
-      payload: res.data,
+      payload: res.data.token,
     });
 
     dispatch(loadUser());
@@ -114,6 +115,24 @@ export const updateUser = (name, password, userId) => async (dispatch) => {
     const errors = err.response.data.error;
     if (errors) {
       errors.forEach((error) => dispatch(setAlert("warning", error)));
+    }
+    dispatch({
+      type: UPDATE_ERROR,
+    });
+  }
+};
+
+export const deleteUser = (userId) => async (dispatch) => {
+  try {
+    const res = await axios.delete(`/api/users/${userId}`);
+
+    dispatch({ type: DELETE_USER });
+
+    dispatch(setAlert("info", res.data.msg));
+  } catch (err) {
+    const errors = err.response.data.error;
+    if (errors) {
+      errors.forEach((error) => dispatch(setAlert("error", error)));
     }
     dispatch({
       type: UPDATE_ERROR,
