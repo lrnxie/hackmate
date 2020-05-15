@@ -45,9 +45,7 @@ const Navbar = ({ isAuthenticated, loading, user, logOut }) => {
     <Fragment>
       {user && (
         <Tooltip arrow interactive title={list}>
-          <Button component={RouterLink} to="/" color="inherit">
-            {<Avatar>{user.name[0]}</Avatar>}
-          </Button>
+          <Button color="inherit">{<Avatar>{user.name[0]}</Avatar>}</Button>
         </Tooltip>
       )}
     </Fragment>
