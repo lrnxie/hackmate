@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
+import { updateUser } from "../../actions/auth";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -30,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const UpdateUser = ({ isAuthenticated, loading, user }) => {
+const UpdateUser = ({ isAuthenticated, loading, user, updateUser }) => {
   const classes = useStyles();
   const [formData, setFormData] = useState({
     name: undefined,
@@ -86,8 +87,8 @@ const UpdateUser = ({ isAuthenticated, loading, user }) => {
       validatePassword(password) &&
       validatePassword2(password, password2)
     ) {
-      console.log({ name, password });
-      setFormData({ name: user.name, password: "", password2: "" });
+      updateUser(name, password, user._id);
+      setFormData({ name, password: "", password2: "" });
     }
   };
 
@@ -173,4 +174,4 @@ const mapStateToProps = (state) => ({
   user: state.auth.user,
 });
 
-export default connect(mapStateToProps)(UpdateUser);
+export default connect(mapStateToProps, { updateUser })(UpdateUser);

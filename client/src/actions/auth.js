@@ -6,6 +6,8 @@ import {
   SIGNUP_SUCCESS,
   LOGOUT,
   AUTH_ERROR,
+  UPDATE_USER,
+  UPDATE_ERROR,
 } from "./actionTypes";
 
 export const loadUser = () => async (dispatch) => {
@@ -36,7 +38,7 @@ export const logIn = (email, password) => async (dispatch) => {
 
     dispatch({
       type: LOGIN_SUCCESS,
-      payload: res.data,
+      payload: res.data.token,
     });
 
     dispatch(loadUser());
@@ -74,7 +76,6 @@ export const signUp = (name, email, password) => async (dispatch) => {
     dispatch(setAlert("success", res.data.msg));
   } catch (err) {
     const errors = err.response.data.error;
-    console.log(errors);
     if (errors) {
       errors.forEach((error) => dispatch(setAlert("error", error)));
     }
@@ -86,4 +87,36 @@ export const signUp = (name, email, password) => async (dispatch) => {
 
 export const logOut = () => (dispatch) => {
   dispatch({ type: LOGOUT });
+
+  dispatch(setAlert("info", "You have logged out"));
+};
+
+export const updateUser = (name, password, userId) => async (dispatch) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  const body = JSON.stringify({ name, password });
+
+  try {
+    const res = await axios.put(`/api/users/${userId}`, body, config);
+
+    dispatch({
+      type: UPDATE_USER,
+      payload: res.data.user,
+    });
+
+    dispatch(loadUser());
+
+    dispatch(setAlert("success", res.data.msg));
+  } catch (err) {
+    const errors = err.response.data.error;
+    if (errors) {
+      errors.forEach((error) => dispatch(setAlert("warning", error)));
+    }
+    dispatch({
+      type: UPDATE_ERROR,
+    });
+  }
 };

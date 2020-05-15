@@ -4,6 +4,8 @@ import {
   SIGNUP_SUCCESS,
   LOGOUT,
   AUTH_ERROR,
+  UPDATE_USER,
+  UPDATE_ERROR,
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -28,7 +30,7 @@ export default function (state = initialState, action) {
     case LOGIN_SUCCESS:
       return {
         ...state,
-        ...payload,
+        token: payload,
         isAuthenticated: true,
         loading: false,
       };
@@ -49,6 +51,19 @@ export default function (state = initialState, action) {
         isAuthenticated: false,
         loading: false,
         user: null,
+      };
+
+    case UPDATE_USER:
+      return {
+        ...state,
+        loading: false,
+        user: payload,
+      };
+
+    case UPDATE_ERROR:
+      return {
+        ...state,
+        loading: false,
       };
 
     default:
