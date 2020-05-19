@@ -9,6 +9,7 @@ import Home from "./components/layout/Home";
 import LogIn from "./components/auth/LogIn";
 import SignUp from "./components/auth/SignUp";
 import UpdateUser from "./components/user/UpdateUser";
+import Profile from "./components/profile/Profile";
 
 import setAuthToken from "./utils/setAuthToken";
 import { loadUser } from "./actions/auth";
@@ -17,7 +18,7 @@ function App({ loadUser }) {
   useEffect(() => {
     setAuthToken(localStorage.token);
     loadUser();
-  });
+  }, [loadUser]);
 
   return (
     <BrowserRouter>
@@ -27,6 +28,7 @@ function App({ loadUser }) {
         <Route exact path="/" component={Home} />
         <Route exact path="/login" component={LogIn} />
         <Route exact path="/signup" component={SignUp} />
+        <Route exact path="/profile/:id" component={Profile} />
         <PrivateRoute exact path="/user" component={UpdateUser} />
       </Switch>
     </BrowserRouter>

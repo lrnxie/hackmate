@@ -27,13 +27,22 @@ const useStyles = makeStyles(() => ({
 const Navbar = ({ isAuthenticated, loading, user, logOut }) => {
   const classes = useStyles();
 
+  const nameInitials = (name) => {
+    const split = name.split(" ");
+    return split.length === 2 ? split[0][0] + split[1][0] : split[0][0];
+  };
+
   const list = (
     <List>
-      <ListItem button component={RouterLink} to="/profile">
-        <ListItemText primary="Profile" />
+      <ListItem
+        button
+        component={RouterLink}
+        to={user && `/profile/${user._id}`}
+      >
+        <ListItemText primary="My Profile" />
       </ListItem>
       <ListItem button component={RouterLink} to="/user">
-        <ListItemText primary="Account" />
+        <ListItemText primary="Account Settings" />
       </ListItem>
       <ListItem button onClick={logOut} component={RouterLink} to="/login">
         <ListItemText primary="Log Out" />
@@ -45,7 +54,11 @@ const Navbar = ({ isAuthenticated, loading, user, logOut }) => {
     <Fragment>
       {user && (
         <Tooltip arrow interactive title={list}>
-          <Button color="inherit">{<Avatar>{user.name[0]}</Avatar>}</Button>
+          <Button color="inherit">
+            <Avatar>
+              <Typography>{nameInitials(user.name)}</Typography>
+            </Avatar>
+          </Button>
         </Tooltip>
       )}
     </Fragment>

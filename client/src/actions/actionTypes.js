@@ -10,3 +10,6 @@ export const AUTH_ERROR = "AUTH_ERROR";
 export const UPDATE_USER = "UPDATE_USER";
 export const DELETE_USER = "DELETE_USER";
 export const UPDATE_ERROR = "UPDATE_ERROR";
+
+export const GET_PROFILE = "GET_PROFILE";
+export const PROFILE_ERROR = "PROFILE_ERROR";
