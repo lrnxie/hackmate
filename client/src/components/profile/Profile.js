@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Link as RouterLink } from "react-router-dom";
 import { connect } from "react-redux";
 import { getProfile } from "../../actions/profile";
 import ProfileDetail from "./ProfileDetail";
@@ -36,6 +37,8 @@ const Profile = ({ user, profile, loading, getProfile, match }) => {
           <div>
             <Typography>You have not created your profile yet</Typography>
             <Button
+              component={RouterLink}
+              to="/profile/edit"
               className={classes.spacing}
               variant="contained"
               color="primary"
@@ -55,6 +58,8 @@ const Profile = ({ user, profile, loading, getProfile, match }) => {
             <div>
               <Divider />
               <Button
+                component={RouterLink}
+                to="/profile/edit"
                 className={classes.spacing}
                 variant="contained"
                 color="primary"

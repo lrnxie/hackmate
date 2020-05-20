@@ -12,4 +12,5 @@ export const DELETE_USER = "DELETE_USER";
 export const UPDATE_ERROR = "UPDATE_ERROR";
 
 export const GET_PROFILE = "GET_PROFILE";
+export const UPDATE_PROFILE = "UPDATE_PROFILE";
 export const PROFILE_ERROR = "PROFILE_ERROR";

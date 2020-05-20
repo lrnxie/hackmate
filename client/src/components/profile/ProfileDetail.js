@@ -63,7 +63,7 @@ const ProfileDetail = ({ profile }) => {
       <div className={classes.spacing}>
         {bio && <Typography>{bio}</Typography>}
       </div>
-      {skills.length > 0 && (
+      {skills && skills.length > 0 && (
         <div>
           <Divider />
           <div className={classes.spacing}>
@@ -76,7 +76,7 @@ const ProfileDetail = ({ profile }) => {
           </div>
         </div>
       )}
-      {links.length > 0 && (
+      {links && links.length > 0 && (
         <div>
           <Divider />
           <div className={classes.spacing}>

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { updateUser } from "../../actions/auth";
@@ -33,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const UpdateUser = ({ isAuthenticated, loading, user, updateUser }) => {
+const UpdateUser = ({ loading, user, updateUser }) => {
   const classes = useStyles();
   const [formData, setFormData] = useState({
     name: undefined,
@@ -93,10 +92,6 @@ const UpdateUser = ({ isAuthenticated, loading, user, updateUser }) => {
       setFormData({ name, password: "", password2: "" });
     }
   };
-
-  if (!isAuthenticated && !loading) {
-    return <Redirect to="/login" />;
-  }
 
   return (
     !loading && (
@@ -170,7 +165,6 @@ const UpdateUser = ({ isAuthenticated, loading, user, updateUser }) => {
 };
 
 const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated,
   loading: state.auth.loading,
   user: state.auth.user,
 });

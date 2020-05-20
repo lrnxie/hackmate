@@ -54,10 +54,10 @@ exports.updateProfile = async (req, res) => {
     };
 
     const updatedProfile = await Profile.findOneAndUpdate(
-      { user: req.userId },
+      { user: authUserId },
       { $set: newProfile },
       { new: true, upsert: true, runValidators: true }
-    );
+    ).populate("user", "name");
 
     return res
       .status(200)
