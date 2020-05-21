@@ -37,7 +37,7 @@ exports.updateProfile = async (req, res) => {
       return res.status(401).json({ error: ["Authorization denied"] });
     }
 
-    const { headline, location, bio, skills, links } = req.body;
+    const { headline, location, bio, skills } = req.body;
 
     const newProfile = {
       user: authUserId,
@@ -50,7 +50,6 @@ exports.updateProfile = async (req, res) => {
             .split(",")
             .filter((skill) => skill !== "")
             .map((skill) => skill.trim()),
-      links,
     };
 
     const updatedProfile = await Profile.findOneAndUpdate(

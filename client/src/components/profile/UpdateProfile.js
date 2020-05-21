@@ -29,9 +29,6 @@ const useStyles = makeStyles((theme) => ({
   textField: {
     width: 550,
   },
-  divider: {
-    margin: theme.spacing(3, 0),
-  },
   button: {
     width: 100,
     margin: theme.spacing(3),
@@ -76,10 +73,10 @@ const UpdateProfile = ({
         profileData.skills = profileData.skills.join(", ");
       setFormData(profileData);
     }
-  }, []);
+  }, [authLoading, profileLoading]);
 
   return (
-    !authLoading && (
+    !profileLoading && (
       <div className={classes.root}>
         <Typography className={classes.title} variant="h5">
           Edit Profile

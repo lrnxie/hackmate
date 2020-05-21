@@ -5,7 +5,6 @@ import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import Divider from "@material-ui/core/Divider";
 import Chip from "@material-ui/core/Chip";
-import Link from "@material-ui/core/Link";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,17 +30,11 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(0.5),
     },
   },
-  link: {
-    margin: theme.spacing(0.5),
-    "& > *": {
-      margin: theme.spacing(1),
-    },
-  },
 }));
 
 const ProfileDetail = ({ profile }) => {
   const classes = useStyles();
-  const { user, headline, location, bio, skills, links } = profile;
+  const { user, headline, location, bio, skills } = profile;
 
   const nameInitials = (name) => {
     const split = name.split(" ");
@@ -71,27 +64,6 @@ const ProfileDetail = ({ profile }) => {
             <div className={classes.skill}>
               {skills.map((skill, index) => (
                 <Chip key={index} label={skill} />
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-      {links && links.length > 0 && (
-        <div>
-          <Divider />
-          <div className={classes.spacing}>
-            <Typography variant="h6">Links</Typography>
-            <div className={classes.link}>
-              {links.map((link, index) => (
-                <Link
-                  key={index}
-                  variant="body1"
-                  href={link.url}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {link.name}
-                </Link>
               ))}
             </div>
           </div>
