@@ -9,6 +9,7 @@ import {
   UPDATE_USER,
   DELETE_USER,
   UPDATE_ERROR,
+  CLEAR_PROFILE,
 } from "./actionTypes";
 
 export const loadUser = () => async (dispatch) => {
@@ -88,7 +89,7 @@ export const signUp = (name, email, password) => async (dispatch) => {
 
 export const logOut = () => (dispatch) => {
   dispatch({ type: LOGOUT });
-
+  dispatch({ type: CLEAR_PROFILE });
   dispatch(setAlert("info", "You have logged out"));
 };
 
