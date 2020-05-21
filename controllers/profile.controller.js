@@ -75,3 +75,35 @@ exports.updateProfile = async (req, res) => {
     }
   }
 };
+
+// @desc    Delete user own profile
+// @route   DELETE /api/profile/:userId
+// @access  Private
+exports.deleteProfile = async (req, res) => {
+  try {
+    // Only allow user to update own profile
+    const authUserId = req.userId;
+    if (req.params.userId !== authUserId) {
+      return res.status(401).json({ error: ["Authorization denied"] });
+    }
+
+    const profile = await Profile.findOne({ user: authUserId });
+
+    if (!profile) {
+      return res.status(404).json({ error: ["Profile not found"] });
+    }
+
+    await profile.remove();
+
+    return res.status(200).json({ msg: "Profile deleted" });
+  } catch (err) {
+    if (err.name === "CastError") {
+      return res.status(400).json({ error: ["Invalid user ID"] });
+    } else {
+      console.log(err);
+      return res.status(500).json({
+        error: "Server error",
+      });
+    }
+  }
+};
