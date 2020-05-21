@@ -1,7 +1,9 @@
 import {
   GET_PROFILE,
   UPDATE_PROFILE,
+  DELETE_PROFILE,
   CLEAR_PROFILE,
+  UPDATE_PROFILE_ERROR,
   PROFILE_ERROR,
 } from "../actions/actionTypes";
 
@@ -22,11 +24,18 @@ export default function (state = initialState, action) {
         loading: false,
       };
 
+    case DELETE_PROFILE:
     case CLEAR_PROFILE:
       return {
         ...state,
         profile: null,
         loading: true,
+      };
+
+    case UPDATE_PROFILE_ERROR:
+      return {
+        ...state,
+        loading: false,
       };
 
     case PROFILE_ERROR:

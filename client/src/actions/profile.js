@@ -1,6 +1,13 @@
 import axios from "axios";
 import { setAlert } from "./alert";
-import { GET_PROFILE, UPDATE_PROFILE, PROFILE_ERROR } from "./actionTypes";
+import {
+  GET_PROFILE,
+  UPDATE_PROFILE,
+  DELETE_PROFILE,
+  CLEAR_PROFILE,
+  UPDATE_PROFILE_ERROR,
+  PROFILE_ERROR,
+} from "./actionTypes";
 
 export const getProfile = (userId) => async (dispatch) => {
   try {
@@ -39,7 +46,20 @@ export const updateProfile = (profileData, userId, history) => async (
     }
 
     dispatch({
-      type: PROFILE_ERROR,
+      type: UPDATE_PROFILE_ERROR,
     });
+  }
+};
+
+export const deleteProfile = (userId) => async (dispatch) => {
+  try {
+    await axios.delete(`/api/profile/${userId}`);
+
+    dispatch({ type: DELETE_PROFILE });
+  } catch (err) {
+    if (err.response.status === 404) {
+      return dispatch({ type: CLEAR_PROFILE });
+    }
+    dispatch({ type: UPDATE_PROFILE_ERROR });
   }
 };

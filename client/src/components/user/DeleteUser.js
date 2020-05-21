@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { deleteUser } from "../../actions/auth";
+import { deleteProfile } from "../../actions/profile";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -17,22 +18,31 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
   },
-  body: {
+  modalBody: {
     position: "absolute",
     top: "25%",
-    margin: "auto",
-    width: 400,
+    maxWidth: 430,
     textAlign: "center",
+    borderRadius: 5,
     outline: "none",
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[3],
     padding: theme.spacing(4),
   },
+  modalBtn: {
+    width: 250,
+    marginTop: theme.spacing(3),
+  },
 }));
 
-const DeleteUser = ({ user, deleteUser }) => {
+const DeleteUser = ({ user, deleteUser, deleteProfile }) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+
+  const handleDelete = () => {
+    deleteProfile(user._id);
+    deleteUser(user._id);
+  };
 
   return (
     <div>
@@ -49,13 +59,16 @@ const DeleteUser = ({ user, deleteUser }) => {
         open={open}
         onClose={() => setOpen(false)}
       >
-        <div className={classes.body}>
+        <div className={classes.modalBody}>
           <Typography variant="h6">
-            Are you sure to delete your account?
+            Are you sure you want to delete your account?
+          </Typography>
+          <Typography variant="caption">
+            Deleting account will also delete your profile
           </Typography>
           <Button
-            onClick={() => deleteUser(user._id)}
-            className={classes.button}
+            onClick={handleDelete}
+            className={classes.modalBtn}
             variant="outlined"
             color="secondary"
           >
@@ -63,7 +76,7 @@ const DeleteUser = ({ user, deleteUser }) => {
           </Button>
           <Button
             onClick={() => setOpen(false)}
-            className={classes.button}
+            className={classes.modalBtn}
             variant="outlined"
             color="primary"
           >
@@ -79,4 +92,6 @@ const mapStateToProps = (state) => ({
   user: state.auth.user,
 });
 
-export default connect(mapStateToProps, { deleteUser })(DeleteUser);
+export default connect(mapStateToProps, { deleteUser, deleteProfile })(
+  DeleteUser
+);
