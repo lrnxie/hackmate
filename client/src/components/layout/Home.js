@@ -1,9 +1,12 @@
-import React from "react";
-
-import Typography from "@material-ui/core/Typography";
+import React, { Fragment } from "react";
+import PostList from "../posts/PostList";
 
 const Home = () => {
-  return <Typography>Latest posts</Typography>;
+  return (
+    <Fragment>
+      <PostList />
+    </Fragment>
+  );
 };
 
 export default Home;
