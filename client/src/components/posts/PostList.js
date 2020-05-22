@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PostList = ({ posts, loading, getAllPosts }) => {
+const PostList = ({ posts, postLoading, user, authLoading, getAllPosts }) => {
   const classes = useStyles();
 
   useEffect(() => {
@@ -26,10 +26,12 @@ const PostList = ({ posts, loading, getAllPosts }) => {
   return (
     <div className={classes.root}>
       <Typography variant="h6">Posts</Typography>
-      {loading ? (
+      {postLoading || authLoading ? (
         <CircularProgress />
       ) : posts ? (
-        posts.map((post) => <PostSummary key={post._id} post={post} />)
+        posts.map((post) => (
+          <PostSummary key={post._id} post={post} currentUser={user} />
+        ))
       ) : (
         <Typography>No posts yet</Typography>
       )}
@@ -39,7 +41,9 @@ const PostList = ({ posts, loading, getAllPosts }) => {
 
 const mapStateToProps = (state) => ({
   posts: state.post.posts,
-  loading: state.post.loading,
+  postLoading: state.post.loading,
+  user: state.auth.user,
+  authLoading: state.auth.loading,
 });
 
 export default connect(mapStateToProps, { getAllPosts })(PostList);

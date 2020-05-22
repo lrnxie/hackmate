@@ -19,3 +19,4 @@ export const UPDATE_PROFILE_ERROR = "UPDATE_PROFILE_ERROR";
 export const PROFILE_ERROR = "PROFILE_ERROR";
 
 export const GET_ALL_POSTS = "GET_ALL_POSTS";
+export const POST_ERROR = "POST_ERROR";

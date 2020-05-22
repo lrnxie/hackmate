@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PostSummary = ({ post }) => {
+const PostSummary = ({ post, currentUser }) => {
   const classes = useStyles();
 
   return (
@@ -52,30 +52,33 @@ const PostSummary = ({ post }) => {
         <CardContent>
           <Typography>{post.content}</Typography>
         </CardContent>
+
+        <CardActions>
+          <div className={classes.action}>
+            <Checkbox
+              icon={<FavoriteBorderIcon />}
+              checkedIcon={<FavoriteIcon />}
+              disabled={currentUser === null}
+            />
+            <Typography variant="body2">{post.likes.length}</Typography>
+          </div>
+
+          <div className={classes.action}>
+            <IconButton>
+              <CommentIcon />
+            </IconButton>
+            <Typography variant="body2">{post.comments.length}</Typography>
+          </div>
+
+          {currentUser && currentUser._id === post.user && (
+            <div className={classes.action}>
+              <IconButton>
+                <DeleteIcon />
+              </IconButton>
+            </div>
+          )}
+        </CardActions>
       </CardActionArea>
-
-      <CardActions>
-        <div className={classes.action}>
-          <Checkbox
-            icon={<FavoriteBorderIcon />}
-            checkedIcon={<FavoriteIcon />}
-          />
-          <Typography variant="body2">{post.likes.length}</Typography>
-        </div>
-
-        <div className={classes.action}>
-          <IconButton>
-            <CommentIcon />
-          </IconButton>
-          <Typography variant="body2">{post.comments.length}</Typography>
-        </div>
-
-        <div className={classes.action}>
-          <IconButton>
-            <DeleteIcon />
-          </IconButton>
-        </div>
-      </CardActions>
     </Card>
   );
 };
