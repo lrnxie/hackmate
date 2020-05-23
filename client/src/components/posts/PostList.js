@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 800,
     margin: "auto",
-    marginTop: theme.spacing(5),
+    marginTop: theme.spacing(2),
     marginBottom: theme.spacing(5),
   },
 }));
