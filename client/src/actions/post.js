@@ -1,11 +1,29 @@
 import axios from "axios";
-import { GET_ALL_POSTS, UPDATE_LIKES, POST_ERROR } from "./actionTypes";
+import { setAlert } from "./alert";
+import {
+  GET_ALL_POSTS,
+  DELETE_POST,
+  UPDATE_LIKES,
+  POST_ERROR,
+} from "./actionTypes";
 
 export const getAllPosts = () => async (dispatch) => {
   try {
     const res = await axios.get("/api/posts");
 
     dispatch({ type: GET_ALL_POSTS, payload: res.data });
+  } catch (err) {
+    dispatch({ type: POST_ERROR });
+  }
+};
+
+export const deletePost = (postId) => async (dispatch) => {
+  try {
+    const res = await axios.delete(`/api/posts/${postId}`);
+
+    dispatch({ type: DELETE_POST, payload: postId });
+
+    dispatch(setAlert("success", res.data.msg));
   } catch (err) {
     dispatch({ type: POST_ERROR });
   }

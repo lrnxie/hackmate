@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { connect } from "react-redux";
-import { addLike, removeLike } from "../../actions/post";
+import { addLike, removeLike, deletePost } from "../../actions/post";
 import moment from "moment";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -32,7 +32,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PostSummary = ({ post, currentUser, addLike, removeLike }) => {
+const PostSummary = ({
+  post,
+  currentUser,
+  addLike,
+  removeLike,
+  deletePost,
+}) => {
   const classes = useStyles();
 
   const [liked, setLiked] = useState(
@@ -110,7 +116,11 @@ const PostSummary = ({ post, currentUser, addLike, removeLike }) => {
 
         {currentUser && currentUser._id === post.user && (
           <div className={classes.action}>
-            <IconButton>
+            <IconButton
+              onClick={() => {
+                deletePost(post._id);
+              }}
+            >
               <DeleteIcon />
             </IconButton>
           </div>
@@ -120,4 +130,4 @@ const PostSummary = ({ post, currentUser, addLike, removeLike }) => {
   );
 };
 
-export default connect(null, { addLike, removeLike })(PostSummary);
+export default connect(null, { addLike, removeLike, deletePost })(PostSummary);
