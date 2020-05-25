@@ -1,11 +1,37 @@
 import axios from "axios";
-import { GET_ALL_POSTS, POST_ERROR } from "./actionTypes";
+import { GET_ALL_POSTS, UPDATE_LIKES, POST_ERROR } from "./actionTypes";
 
 export const getAllPosts = () => async (dispatch) => {
   try {
     const res = await axios.get("/api/posts");
 
     dispatch({ type: GET_ALL_POSTS, payload: res.data });
+  } catch (err) {
+    dispatch({ type: POST_ERROR });
+  }
+};
+
+export const addLike = (postId) => async (dispatch) => {
+  try {
+    const res = await axios.post(`/api/posts/${postId}/like`);
+
+    dispatch({
+      type: UPDATE_LIKES,
+      payload: { postId, likes: res.data.likes },
+    });
+  } catch (err) {
+    dispatch({ type: POST_ERROR });
+  }
+};
+
+export const removeLike = (postId) => async (dispatch) => {
+  try {
+    const res = await axios.delete(`/api/posts/${postId}/like`);
+
+    dispatch({
+      type: UPDATE_LIKES,
+      payload: { postId, likes: res.data.likes },
+    });
   } catch (err) {
     dispatch({ type: POST_ERROR });
   }

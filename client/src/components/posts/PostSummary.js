@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link as RouterLink } from "react-router-dom";
+import { connect } from "react-redux";
+import { addLike, removeLike } from "../../actions/post";
 import moment from "moment";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -30,8 +32,32 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PostSummary = ({ post, currentUser }) => {
+const PostSummary = ({ post, currentUser, addLike, removeLike }) => {
   const classes = useStyles();
+
+  const [liked, setLiked] = useState(
+    currentUser && post.likes.some((like) => like.user === currentUser._id)
+  );
+
+  const handleChange = (e) => {
+    setLiked(e.target.checked);
+  };
+
+  useEffect(() => {
+    setLiked(
+      currentUser && post.likes.some((like) => like.user === currentUser._id)
+    );
+  }, [currentUser]);
+
+  useEffect(() => {
+    if (currentUser) {
+      if (liked) {
+        addLike(post._id);
+      } else {
+        removeLike(post._id);
+      }
+    }
+  }, [liked, addLike, removeLike]);
 
   return (
     <Card className={classes.root} variant="outlined">
@@ -66,9 +92,11 @@ const PostSummary = ({ post, currentUser }) => {
       <CardActions>
         <div className={classes.action}>
           <Checkbox
+            checked={liked}
             icon={<FavoriteIcon />}
             checkedIcon={<FavoriteIcon />}
             disabled={currentUser === null}
+            onChange={handleChange}
           />
           <Typography variant="body2">{post.likes.length}</Typography>
         </div>
@@ -92,4 +120,4 @@ const PostSummary = ({ post, currentUser }) => {
   );
 };
 
-export default PostSummary;
+export default connect(null, { addLike, removeLike })(PostSummary);
