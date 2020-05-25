@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { getAllPosts } from "../../actions/post";
 import PostSummary from "./PostSummary";
+import NewPost from "./NewPost";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -26,6 +27,9 @@ const PostList = ({ posts, postLoading, user, authLoading, getAllPosts }) => {
   return (
     <div className={classes.root}>
       <Typography variant="h6">Posts</Typography>
+
+      {!authLoading && user && <NewPost />}
+
       {postLoading || authLoading ? (
         <CircularProgress />
       ) : posts ? (

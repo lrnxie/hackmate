@@ -2,6 +2,7 @@ import axios from "axios";
 import { setAlert } from "./alert";
 import {
   GET_ALL_POSTS,
+  ADD_POST,
   DELETE_POST,
   UPDATE_LIKES,
   POST_ERROR,
@@ -12,6 +13,18 @@ export const getAllPosts = () => async (dispatch) => {
     const res = await axios.get("/api/posts");
 
     dispatch({ type: GET_ALL_POSTS, payload: res.data });
+  } catch (err) {
+    dispatch({ type: POST_ERROR });
+  }
+};
+
+export const addPost = (content) => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/posts", content);
+
+    dispatch({ type: ADD_POST, payload: res.data.post });
+
+    dispatch(setAlert("success", res.data.msg));
   } catch (err) {
     dispatch({ type: POST_ERROR });
   }

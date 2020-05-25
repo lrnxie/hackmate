@@ -1,5 +1,6 @@
 import {
   GET_ALL_POSTS,
+  ADD_POST,
   DELETE_POST,
   UPDATE_LIKES,
   POST_ERROR,
@@ -19,6 +20,13 @@ export default function (state = initialState, action) {
       return {
         ...state,
         posts: payload,
+        loading: false,
+      };
+
+    case ADD_POST:
+      return {
+        ...state,
+        posts: [payload, ...state.posts],
         loading: false,
       };
 
