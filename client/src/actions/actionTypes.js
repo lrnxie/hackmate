@@ -19,7 +19,9 @@ export const UPDATE_PROFILE_ERROR = "UPDATE_PROFILE_ERROR";
 export const PROFILE_ERROR = "PROFILE_ERROR";
 
 export const GET_ALL_POSTS = "GET_ALL_POSTS";
+export const GET_POST = "GET_POST";
 export const ADD_POST = "ADD_POST";
 export const DELETE_POST = "DELETE_POST";
 export const UPDATE_LIKES = "UPDATE_LIKES";
+export const CLEAR_POST = "CLEAR_POST";
 export const POST_ERROR = "POST_ERROR";

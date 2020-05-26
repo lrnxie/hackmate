@@ -1,8 +1,10 @@
 import {
   GET_ALL_POSTS,
+  GET_POST,
   ADD_POST,
   DELETE_POST,
   UPDATE_LIKES,
+  CLEAR_POST,
   POST_ERROR,
 } from "../actions/actionTypes";
 
@@ -23,6 +25,13 @@ export default function (state = initialState, action) {
         loading: false,
       };
 
+    case GET_POST:
+      return {
+        ...state,
+        post: payload,
+        loading: false,
+      };
+
     case ADD_POST:
       return {
         ...state,
@@ -34,6 +43,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         posts: state.posts.filter((post) => post._id !== payload),
+        post: state.post && state.post._id === payload ? null : state.post,
         loading: false,
       };
 
@@ -43,7 +53,18 @@ export default function (state = initialState, action) {
         posts: state.posts.map((post) =>
           post._id === payload.postId ? { ...post, likes: payload.likes } : post
         ),
+        post:
+          state.post && state.post._id === payload.postId
+            ? { ...state.post, likes: payload.likes }
+            : state.post,
         loading: false,
+      };
+
+    case CLEAR_POST:
+      return {
+        ...state,
+        post: null,
+        loading: true,
       };
 
     case POST_ERROR:

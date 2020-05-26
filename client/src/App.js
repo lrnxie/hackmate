@@ -11,6 +11,7 @@ import SignUp from "./components/auth/SignUp";
 import UpdateUser from "./components/user/UpdateUser";
 import Profile from "./components/profile/Profile";
 import UpdateProfile from "./components/profile/UpdateProfile";
+import PostDetail from "./components/post/PostDetail";
 
 import setAuthToken from "./utils/setAuthToken";
 import { loadUser } from "./actions/auth";
@@ -32,6 +33,7 @@ function App({ loadUser }) {
         <PrivateRoute exact path="/user" component={UpdateUser} />
         <PrivateRoute exact path="/profile/edit" component={UpdateProfile} />
         <Route exact path="/profile/:id" component={Profile} />
+        <Route exact path="/post/:id" component={PostDetail} />
       </Switch>
     </BrowserRouter>
   );
