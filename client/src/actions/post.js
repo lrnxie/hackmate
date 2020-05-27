@@ -6,6 +6,8 @@ import {
   ADD_POST,
   DELETE_POST,
   UPDATE_LIKES,
+  ADD_COMMENT,
+  DELETE_COMMENT,
   CLEAR_POST,
   POST_ERROR,
 } from "./actionTypes";
@@ -75,6 +77,28 @@ export const removeLike = (postId) => async (dispatch) => {
       type: UPDATE_LIKES,
       payload: { postId, likes: res.data.likes },
     });
+  } catch (err) {
+    dispatch({ type: POST_ERROR });
+  }
+};
+
+export const addComment = (postId, content) => async (dispatch) => {
+  try {
+    const res = await axios.post(`/api/posts/${postId}/comment`, content);
+
+    dispatch({ type: ADD_COMMENT, payload: res.data.comments });
+  } catch (err) {
+    dispatch({ type: POST_ERROR });
+  }
+};
+
+export const deleteComment = (postId, commentId) => async (dispatch) => {
+  try {
+    const res = await axios.delete(`/api/posts/${postId}/comment/${commentId}`);
+
+    dispatch({ type: DELETE_COMMENT, payload: commentId });
+
+    dispatch(setAlert("success", res.data.msg));
   } catch (err) {
     dispatch({ type: POST_ERROR });
   }

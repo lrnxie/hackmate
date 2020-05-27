@@ -1,5 +1,7 @@
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
+import { connect } from "react-redux";
+import { deleteComment } from "../../actions/post";
 
 import moment from "moment";
 
@@ -32,6 +34,8 @@ const useStyles = makeStyles((theme) => ({
 const Comment = ({
   currentUser,
   comment: { _id, user, name, content, createdAt },
+  postId,
+  deleteComment,
 }) => {
   const classes = useStyles();
 
@@ -70,7 +74,7 @@ const Comment = ({
                 className={classes.margin}
                 size="small"
                 onClick={() => {
-                  console.log(_id);
+                  deleteComment(postId, _id);
                 }}
               >
                 <DeleteIcon fontSize="small" />
@@ -84,4 +88,4 @@ const Comment = ({
   );
 };
 
-export default Comment;
+export default connect(null, { deleteComment })(Comment);

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { getPost, clearPost } from "../../actions/post";
 import PostContent from "./PostContent";
+import NewComment from "./NewComment";
 import Comment from "./Comment";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -48,12 +49,16 @@ const PostDetail = ({
         <CardHeader
           title={<Typography>{post.comments.length} comments</Typography>}
         />
+
+        {currentUser !== null && <NewComment postId={post._id} />}
+
         {post.comments &&
           post.comments.map((comment) => (
             <Comment
               key={comment._id}
               currentUser={currentUser}
               comment={comment}
+              postId={post._id}
             />
           ))}
       </Card>
