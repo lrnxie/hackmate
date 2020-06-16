@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { connect } from "react-redux";
-import { getProfile } from "../../actions/profile";
+import { getProfile, clearProfile } from "../../actions/profile";
 import ProfileDetail from "./ProfileDetail";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -21,12 +21,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Profile = ({ user, profile, loading, getProfile, match }) => {
+const Profile = ({
+  user,
+  profile,
+  loading,
+  getProfile,
+  clearProfile,
+  match,
+}) => {
   const classes = useStyles();
 
   useEffect(() => {
     getProfile(match.params.id);
   }, [getProfile, match.params.id]);
+
+  useEffect(() => {
+    return () => {
+      clearProfile();
+    };
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -79,4 +92,4 @@ const mapStateToProps = (state) => ({
   loading: state.profile.loading,
 });
 
-export default connect(mapStateToProps, { getProfile })(Profile);
+export default connect(mapStateToProps, { getProfile, clearProfile })(Profile);

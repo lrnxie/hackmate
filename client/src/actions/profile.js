@@ -45,9 +45,7 @@ export const updateProfile = (profileData, userId, history) => async (
       errors.forEach((error) => dispatch(setAlert("warning", error)));
     }
 
-    dispatch({
-      type: UPDATE_PROFILE_ERROR,
-    });
+    dispatch({ type: UPDATE_PROFILE_ERROR });
   }
 };
 
@@ -62,4 +60,8 @@ export const deleteProfile = (userId) => async (dispatch) => {
     }
     dispatch({ type: UPDATE_PROFILE_ERROR });
   }
+};
+
+export const clearProfile = () => (dispatch) => {
+  dispatch({ type: CLEAR_PROFILE });
 };
