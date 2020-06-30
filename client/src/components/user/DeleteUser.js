@@ -1,37 +1,20 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
+import { makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogActions from "@material-ui/core/DialogActions";
+
 import { deleteUser } from "../../actions/auth";
 import { deleteProfile } from "../../actions/profile";
-
-import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import Modal from "@material-ui/core/Modal";
 
 const useStyles = makeStyles((theme) => ({
   button: {
     width: 300,
     marginTop: theme.spacing(5),
-  },
-  modal: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  modalBody: {
-    position: "absolute",
-    top: "25%",
-    maxWidth: 430,
-    textAlign: "center",
-    borderRadius: 5,
-    outline: "none",
-    backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[3],
-    padding: theme.spacing(4),
-  },
-  modalBtn: {
-    width: 250,
-    marginTop: theme.spacing(3),
   },
 }));
 
@@ -54,36 +37,24 @@ const DeleteUser = ({ user, deleteUser, deleteProfile }) => {
       >
         Delete account
       </Button>
-      <Modal
-        className={classes.modal}
-        open={open}
-        onClose={() => setOpen(false)}
-      >
-        <div className={classes.modalBody}>
-          <Typography variant="h6">
-            Are you sure you want to delete your account?
-          </Typography>
-          <Typography variant="caption">
-            Deleting account will also delete your profile
-          </Typography>
-          <Button
-            onClick={handleDelete}
-            className={classes.modalBtn}
-            variant="outlined"
-            color="secondary"
-          >
-            Yes, delete my account
+
+      <Dialog open={open} onClose={() => setOpen(false)}>
+        <DialogTitle>Delete your account?</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Deleting account will also delete your profile. You will no longer
+            have access to this account.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpen(false)} color="primary">
+            Disagree
           </Button>
-          <Button
-            onClick={() => setOpen(false)}
-            className={classes.modalBtn}
-            variant="outlined"
-            color="primary"
-          >
-            No, go back
+          <Button onClick={handleDelete} color="secondary">
+            Agree
           </Button>
-        </div>
-      </Modal>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

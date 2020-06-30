@@ -1,9 +1,5 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-
-import { updateUser } from "../../actions/auth";
-import DeleteUser from "./DeleteUser";
-
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import FormControl from "@material-ui/core/FormControl";
@@ -13,12 +9,15 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 
+import { updateUser } from "../../actions/auth";
+import DeleteUser from "./DeleteUser";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 600,
     margin: "auto",
     textAlign: "center",
-    marginTop: theme.spacing(5),
+    marginTop: theme.spacing(2),
   },
   textField: {
     width: 300,

@@ -1,21 +1,21 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import { logIn } from "../../actions/auth";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+
+import { logIn } from "../../actions/auth";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 600,
     margin: "auto",
     textAlign: "center",
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(2),
   },
   form: {
     "& > *": {

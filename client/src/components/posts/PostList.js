@@ -1,19 +1,20 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
+import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Grid from "@material-ui/core/Grid";
+
 import { getAllPosts } from "../../actions/post";
 import PostSummary from "./PostSummary";
 import NewPost from "./NewPost";
 
-import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import CircularProgress from "@material-ui/core/CircularProgress";
-
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 800,
-    margin: "auto",
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(5),
+    margin: theme.spacing(1),
+  },
+  title: {
+    width: 650,
   },
 }));
 
@@ -26,19 +27,23 @@ const PostList = ({ posts, postLoading, user, authLoading, getAllPosts }) => {
 
   return (
     <div className={classes.root}>
-      <Typography variant="h6">Posts</Typography>
+      <Grid container direction="column" alignItems="center">
+        <Grid item xs={12} className={classes.title}>
+          <Typography variant="h6">Posts</Typography>
+        </Grid>
 
-      {!authLoading && user && <NewPost />}
+        {!authLoading && user && <NewPost />}
 
-      {postLoading || authLoading ? (
-        <CircularProgress />
-      ) : posts ? (
-        posts.map((post) => (
-          <PostSummary key={post._id} post={post} currentUser={user} />
-        ))
-      ) : (
-        <Typography>No posts yet</Typography>
-      )}
+        {postLoading || authLoading ? (
+          <CircularProgress />
+        ) : posts ? (
+          posts.map((post) => (
+            <PostSummary key={post._id} post={post} currentUser={user} />
+          ))
+        ) : (
+          <Typography>No posts yet</Typography>
+        )}
+      </Grid>
     </div>
   );
 };

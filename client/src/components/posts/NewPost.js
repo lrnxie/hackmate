@@ -1,15 +1,19 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { addPost } from "../../actions/post";
-
 import { makeStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 
+import { addPost } from "../../actions/post";
+
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 600,
-    margin: theme.spacing(2),
+    width: 650,
+    margin: "auto",
+  },
+  form: {
+    margin: theme.spacing(1),
   },
   button: {
     margin: theme.spacing(2, 1),
@@ -32,26 +36,28 @@ const NewPost = ({ addPost }) => {
   };
 
   return (
-    <div className={classes.root}>
-      <TextField
-        placeholder="Say something..."
-        fullWidth
-        multiline
-        rows={4}
-        variant="outlined"
-        value={content}
-        onChange={handleChange}
-      />
-      <Button
-        className={classes.button}
-        variant="contained"
-        color="primary"
-        type="submit"
-        onClick={handleSubmit}
-      >
-        Post
-      </Button>
-    </div>
+    <Grid item xs={12} className={classes.root}>
+      <div className={classes.form}>
+        <TextField
+          placeholder="Say something..."
+          fullWidth
+          multiline
+          rows={4}
+          variant="outlined"
+          value={content}
+          onChange={handleChange}
+        />
+        <Button
+          className={classes.button}
+          variant="contained"
+          color="primary"
+          type="submit"
+          onClick={handleSubmit}
+        >
+          Post
+        </Button>
+      </div>
+    </Grid>
   );
 };
 

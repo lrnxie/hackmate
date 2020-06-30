@@ -1,10 +1,7 @@
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { connect } from "react-redux";
-import { deleteComment } from "../../actions/post";
-
 import moment from "moment";
-
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -12,6 +9,8 @@ import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
+
+import { deleteComment } from "../../actions/post";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
   },
-  noUnderline: {
+  link: {
     textDecoration: "none",
   },
   margin: {
@@ -46,7 +45,7 @@ const Comment = ({
           <Avatar
             component={RouterLink}
             to={`/profile/${user}`}
-            className={classes.noUnderline}
+            className={classes.link}
           >
             {name[0]}
           </Avatar>
@@ -56,7 +55,7 @@ const Comment = ({
             <Typography
               component={RouterLink}
               to={`/profile/${user}`}
-              className={classes.noUnderline}
+              className={classes.link}
               variant="body2"
               color="textPrimary"
             >
@@ -82,7 +81,7 @@ const Comment = ({
             )}
           </div>
         }
-        subheader={<Typography>{content}</Typography>}
+        subheader={<Typography variant="body2">{content}</Typography>}
       />
     </Card>
   );

@@ -1,24 +1,24 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { getPost, clearPost } from "../../actions/post";
-import PostContent from "./PostContent";
-import NewComment from "./NewComment";
-import Comment from "./Comment";
-
 import { makeStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import Typography from "@material-ui/core/Typography";
 
+import { getPost, clearPost } from "../../actions/post";
+import PostContent from "./PostContent";
+import NewComment from "./NewComment";
+import Comment from "./Comment";
+
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 800,
-    margin: (theme.spacing(2), "auto"),
-  },
-  card: {
-    maxWidth: 600,
     margin: theme.spacing(2),
+  },
+  comments: {
+    width: 650,
+    marginTop: theme.spacing(1),
   },
 }));
 
@@ -39,29 +39,43 @@ const PostDetail = ({
     return () => clearPost();
   }, []);
 
-  return authLoading || post === null ? (
-    <CircularProgress />
-  ) : (
+  return (
     <div className={classes.root}>
-      <PostContent post={post} currentUser={currentUser} history={history} />
-
-      <Card className={classes.card} variant="outlined">
-        <CardHeader
-          title={<Typography>{post.comments.length} comments</Typography>}
-        />
-
-        {currentUser !== null && <NewComment postId={post._id} />}
-
-        {post.comments &&
-          post.comments.map((comment) => (
-            <Comment
-              key={comment._id}
+      <Grid container direction="column" alignItems="center">
+        {authLoading || post === null ? (
+          <CircularProgress />
+        ) : (
+          <>
+            <PostContent
+              post={post}
               currentUser={currentUser}
-              comment={comment}
-              postId={post._id}
+              history={history}
             />
-          ))}
-      </Card>
+
+            <Grid item xs={12} className={classes.comments}>
+              <Card variant="outlined">
+                <CardHeader
+                  title={
+                    <Typography>{post.comments.length} comments</Typography>
+                  }
+                />
+
+                {currentUser !== null && <NewComment postId={post._id} />}
+
+                {post.comments &&
+                  post.comments.map((comment) => (
+                    <Comment
+                      key={comment._id}
+                      currentUser={currentUser}
+                      comment={comment}
+                      postId={post._id}
+                    />
+                  ))}
+              </Card>
+            </Grid>
+          </>
+        )}
+      </Grid>
     </div>
   );
 };

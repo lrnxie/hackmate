@@ -1,5 +1,4 @@
 import React from "react";
-
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
@@ -10,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 800,
     margin: "auto",
-    marginTop: theme.spacing(5),
+    marginTop: theme.spacing(2),
   },
   info: {
     margin: theme.spacing(2),

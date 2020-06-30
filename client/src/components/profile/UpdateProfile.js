@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { getProfile, updateProfile } from "../../actions/profile";
-
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import List from "@material-ui/core/List";
@@ -10,13 +8,15 @@ import ListItemText from "@material-ui/core/ListItemText";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 
+import { getProfile, updateProfile } from "../../actions/profile";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 800,
     margin: "auto",
   },
   title: {
-    marginTop: theme.spacing(4),
+    marginTop: theme.spacing(2),
     marginLeft: theme.spacing(1),
   },
   flex: {
@@ -78,7 +78,7 @@ const UpdateProfile = ({
   return (
     !profileLoading && (
       <div className={classes.root}>
-        <Typography className={classes.title} variant="h5">
+        <Typography className={classes.title} variant="h6">
           Edit Profile
         </Typography>
         <form onSubmit={handleSubmit}>

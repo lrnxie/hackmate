@@ -2,19 +2,18 @@ import React, { useEffect } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 
+import setAuthToken from "./utils/setAuthToken";
+import { loadUser } from "./actions/auth";
 import PrivateRoute from "./components/routing/PrivateRoute";
 import Navbar from "./components/layout/Navbar";
 import Alerts from "./components/layout/Alerts";
-import Home from "./components/layout/Home";
+import PostList from "./components/posts/PostList";
 import LogIn from "./components/auth/LogIn";
 import SignUp from "./components/auth/SignUp";
 import UpdateUser from "./components/user/UpdateUser";
 import Profile from "./components/profile/Profile";
 import UpdateProfile from "./components/profile/UpdateProfile";
 import PostDetail from "./components/post/PostDetail";
-
-import setAuthToken from "./utils/setAuthToken";
-import { loadUser } from "./actions/auth";
 
 function App({ loadUser }) {
   useEffect(() => {
@@ -27,7 +26,7 @@ function App({ loadUser }) {
       <Navbar />
       <Alerts />
       <Switch>
-        <Route exact path="/" component={Home} />
+        <Route exact path="/" component={PostList} />
         <Route exact path="/login" component={LogIn} />
         <Route exact path="/signup" component={SignUp} />
         <PrivateRoute exact path="/user" component={UpdateUser} />

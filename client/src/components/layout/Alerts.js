@@ -1,6 +1,5 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { connect } from "react-redux";
-
 import Alert from "@material-ui/lab/Alert";
 
 const Alerts = ({ alerts }) => {
@@ -11,7 +10,7 @@ const Alerts = ({ alerts }) => {
       </Alert>
     ))
   ) : (
-    <Fragment></Fragment>
+    <></>
   );
 };
 
