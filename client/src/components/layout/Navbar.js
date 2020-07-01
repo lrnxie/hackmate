@@ -59,6 +59,8 @@ const Navbar = ({ loading, user, logOut }) => {
             logOut();
             handleClose();
           }}
+          component={RouterLink}
+          to="/"
         >
           Log Out
         </MenuItem>
