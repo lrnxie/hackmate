@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
+import { ThemeProvider } from "@material-ui/styles";
 
 import setAuthToken from "./utils/setAuthToken";
+import theme from "./utils/muiTheme";
 import { loadUser } from "./actions/auth";
 import PrivateRoute from "./components/routing/PrivateRoute";
 import Navbar from "./components/layout/Navbar";
@@ -22,19 +24,21 @@ function App({ loadUser }) {
   }, [loadUser]);
 
   return (
-    <BrowserRouter>
-      <Navbar />
-      <Alerts />
-      <Switch>
-        <Route exact path="/" component={PostList} />
-        <Route exact path="/login" component={LogIn} />
-        <Route exact path="/signup" component={SignUp} />
-        <PrivateRoute exact path="/user" component={UpdateUser} />
-        <PrivateRoute exact path="/profile/edit" component={UpdateProfile} />
-        <Route exact path="/profile/:id" component={Profile} />
-        <Route exact path="/post/:id" component={PostDetail} />
-      </Switch>
-    </BrowserRouter>
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <Navbar />
+        <Alerts />
+        <Switch>
+          <Route exact path="/" component={PostList} />
+          <Route exact path="/login" component={LogIn} />
+          <Route exact path="/signup" component={SignUp} />
+          <PrivateRoute exact path="/user" component={UpdateUser} />
+          <PrivateRoute exact path="/profile/edit" component={UpdateProfile} />
+          <Route exact path="/profile/:id" component={Profile} />
+          <Route exact path="/post/:id" component={PostDetail} />
+        </Switch>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 
