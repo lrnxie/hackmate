@@ -9,6 +9,7 @@ import Divider from "@material-ui/core/Divider";
 
 import { getProfile, clearProfile } from "../../actions/profile";
 import ProfileDetail from "./ProfileDetail";
+import UserPosts from "./UserPosts";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -89,6 +90,7 @@ const Profile = ({
           )}
         </>
       )}
+      <UserPosts userId={match.params.id} />
     </div>
   );
 };

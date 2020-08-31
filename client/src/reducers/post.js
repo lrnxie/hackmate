@@ -1,5 +1,6 @@
 import {
   GET_ALL_POSTS,
+  GET_USER_POSTS,
   GET_POST,
   ADD_POST,
   DELETE_POST,
@@ -21,6 +22,7 @@ export default function (state = initialState, action) {
 
   switch (type) {
     case GET_ALL_POSTS:
+    case GET_USER_POSTS:
       return {
         ...state,
         posts: payload,

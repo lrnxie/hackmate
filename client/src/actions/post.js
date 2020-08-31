@@ -2,6 +2,7 @@ import axios from "axios";
 import { setAlert } from "./alert";
 import {
   GET_ALL_POSTS,
+  GET_USER_POSTS,
   GET_POST,
   ADD_POST,
   DELETE_POST,
@@ -17,6 +18,16 @@ export const getAllPosts = () => async (dispatch) => {
     const res = await axios.get("/api/posts");
 
     dispatch({ type: GET_ALL_POSTS, payload: res.data });
+  } catch (err) {
+    dispatch({ type: POST_ERROR });
+  }
+};
+
+export const getUserPosts = (userId) => async (dispatch) => {
+  try {
+    const res = await axios.get(`/api/posts/${userId}`);
+
+    dispatch({ type: GET_USER_POSTS, payload: res.data });
   } catch (err) {
     dispatch({ type: POST_ERROR });
   }
