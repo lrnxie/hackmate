@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { ThemeProvider } from "@material-ui/styles";
 
@@ -36,6 +36,7 @@ function App({ loadUser }) {
           <PrivateRoute exact path="/profile/edit" component={UpdateProfile} />
           <Route exact path="/profile/:id" component={Profile} />
           <Route exact path="/post/:id" component={PostDetail} />
+          <Redirect from="*" to="/" />
         </Switch>
       </BrowserRouter>
     </ThemeProvider>
