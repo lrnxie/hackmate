@@ -4,6 +4,7 @@ const auth = require("../middleware/auth");
 const {
   createPost,
   getAllPosts,
+  getPostsByUser,
   getPostById,
   deletePost,
   likePost,
@@ -13,6 +14,8 @@ const {
 } = require("../controllers/posts.controller");
 
 router.route("/").post(auth, createPost).get(getAllPosts);
+
+router.route("/:userId").get(getPostsByUser);
 
 router.route("/:postId").get(getPostById).delete(auth, deletePost);
 

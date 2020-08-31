@@ -47,6 +47,25 @@ exports.getAllPosts = async (req, res) => {
   }
 };
 
+// @desc    Get user's all posts by user ID
+// @route   GET /api/posts/:userId
+// @access  Public
+exports.getPostsByUser = async (req, res) => {
+  try {
+    const posts = await Post.find({ user: req.params.userId });
+    return res.status(200).json(posts);
+  } catch (err) {
+    if (err.name === "CastError") {
+      return res.status(400).json({ error: "Invalid user ID" });
+    } else {
+      console.log(err);
+      return res.status(500).json({
+        error: "Server error",
+      });
+    }
+  }
+};
+
 // @desc    Get post by post ID
 // @route   GET /api/posts/:postId
 // @access  Public
