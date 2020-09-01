@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 import { getProfile, clearProfile } from "../../actions/profile";
+import { clearPostList } from "../../actions/post";
 import ProfileDetail from "./ProfileDetail";
 import UserPosts from "./UserPosts";
 
@@ -24,6 +25,7 @@ const Profile = ({
   loading,
   getProfile,
   clearProfile,
+  clearPostList,
   match,
 }) => {
   const classes = useStyles();
@@ -37,6 +39,7 @@ const Profile = ({
   useEffect(() => {
     return () => {
       clearProfile();
+      clearPostList();
     };
   }, []);
 
@@ -59,4 +62,8 @@ const mapStateToProps = (state) => ({
   loading: state.profile.loading,
 });
 
-export default connect(mapStateToProps, { getProfile, clearProfile })(Profile);
+export default connect(mapStateToProps, {
+  getProfile,
+  clearProfile,
+  clearPostList,
+})(Profile);

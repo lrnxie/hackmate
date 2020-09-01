@@ -52,7 +52,10 @@ exports.getAllPosts = async (req, res) => {
 // @access  Public
 exports.getPostsByUser = async (req, res) => {
   try {
-    const posts = await Post.find({ user: req.params.userId });
+    const posts = await Post.find({ user: req.params.userId }).sort({
+      createdAt: -1,
+    });
+
     return res.status(200).json(posts);
   } catch (err) {
     if (err.name === "CastError") {

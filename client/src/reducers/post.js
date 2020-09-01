@@ -1,6 +1,7 @@
 import {
   GET_ALL_POSTS,
   GET_USER_POSTS,
+  CLEAR_POST_LIST,
   GET_POST,
   ADD_POST,
   DELETE_POST,
@@ -27,6 +28,13 @@ export default function (state = initialState, action) {
         ...state,
         posts: payload,
         loading: false,
+      };
+
+    case CLEAR_POST_LIST:
+      return {
+        ...state,
+        posts: [],
+        loading: true,
       };
 
     case GET_POST:

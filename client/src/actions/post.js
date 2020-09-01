@@ -3,6 +3,7 @@ import { setAlert } from "./alert";
 import {
   GET_ALL_POSTS,
   GET_USER_POSTS,
+  CLEAR_POST_LIST,
   GET_POST,
   ADD_POST,
   DELETE_POST,
@@ -117,4 +118,8 @@ export const deleteComment = (postId, commentId) => async (dispatch) => {
 
 export const clearPost = () => (dispatch) => {
   dispatch({ type: CLEAR_POST });
+};
+
+export const clearPostList = () => (dispatch) => {
+  dispatch({ type: CLEAR_POST_LIST });
 };
