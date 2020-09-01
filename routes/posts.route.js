@@ -15,7 +15,7 @@ const {
 
 router.route("/").post(auth, createPost).get(getAllPosts);
 
-router.route("/:userId").get(getPostsByUser);
+router.route("/user/:userId").get(getPostsByUser);
 
 router.route("/:postId").get(getPostById).delete(auth, deletePost);
 

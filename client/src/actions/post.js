@@ -26,7 +26,7 @@ export const getAllPosts = () => async (dispatch) => {
 
 export const getUserPosts = (userId) => async (dispatch) => {
   try {
-    const res = await axios.get(`/api/posts/${userId}`);
+    const res = await axios.get(`/api/posts/user/${userId}`);
 
     dispatch({ type: GET_USER_POSTS, payload: res.data });
   } catch (err) {

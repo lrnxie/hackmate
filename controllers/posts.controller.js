@@ -48,7 +48,7 @@ exports.getAllPosts = async (req, res) => {
 };
 
 // @desc    Get user's all posts by user ID
-// @route   GET /api/posts/:userId
+// @route   GET /api/posts/user/:userId
 // @access  Public
 exports.getPostsByUser = async (req, res) => {
   try {
