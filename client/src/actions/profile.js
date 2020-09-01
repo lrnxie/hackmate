@@ -2,6 +2,7 @@ import axios from "axios";
 import { setAlert } from "./alert";
 import {
   GET_PROFILE,
+  INIT_PROFILE,
   UPDATE_PROFILE,
   DELETE_PROFILE,
   CLEAR_PROFILE,
@@ -19,6 +20,16 @@ export const getProfile = (userId) => async (dispatch) => {
   }
 };
 
+export const initProfile = (userId) => async (dispatch) => {
+  try {
+    await axios.post(`/api/profile/${userId}`);
+
+    dispatch({ type: INIT_PROFILE });
+  } catch (err) {
+    dispatch({ type: PROFILE_ERROR });
+  }
+};
+
 export const updateProfile = (profileData, userId, history) => async (
   dispatch
 ) => {
@@ -31,7 +42,7 @@ export const updateProfile = (profileData, userId, history) => async (
   const body = JSON.stringify(profileData);
 
   try {
-    const res = await axios.post(`/api/profile/${userId}`, body, config);
+    const res = await axios.put(`/api/profile/${userId}`, body, config);
 
     dispatch({ type: UPDATE_PROFILE, payload: res.data.profile });
 

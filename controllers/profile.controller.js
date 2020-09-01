@@ -26,8 +26,28 @@ exports.getProfile = async (req, res) => {
   }
 };
 
-// @desc    Create or update user own profile
+// @desc    Initialize user profile when create account
 // @route   POST /api/profile/:userId
+// @access  Private
+exports.initProfile = async (req, res) => {
+  try {
+    const authUserId = req.userId;
+
+    const profile = new Profile({
+      user: authUserId,
+    });
+
+    await profile.save();
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      error: "Server error",
+    });
+  }
+};
+
+// @desc    Update user own profile
+// @route   PUT /api/profile/:userId
 // @access  Private
 exports.updateProfile = async (req, res) => {
   try {
@@ -48,8 +68,8 @@ exports.updateProfile = async (req, res) => {
         ? skills
         : skills
             .split(",")
-            .filter((skill) => skill !== "")
-            .map((skill) => skill.trim()),
+            .map((skill) => skill.trim())
+            .filter((skill) => skill !== ""),
     };
 
     const updatedProfile = await Profile.findOneAndUpdate(

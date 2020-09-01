@@ -1,15 +1,21 @@
 import React from "react";
+import { Link as RouterLink } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+import IconButton from "@material-ui/core/IconButton";
 import Avatar from "@material-ui/core/Avatar";
-import Divider from "@material-ui/core/Divider";
 import Chip from "@material-ui/core/Chip";
+import EditIcon from "@material-ui/icons/Edit";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 800,
     margin: "auto",
-    marginTop: theme.spacing(2),
+  },
+  top: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
   },
   info: {
     margin: theme.spacing(2),
@@ -31,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProfileDetail = ({ profile }) => {
+const ProfileDetail = ({ profile, isCurrentUser }) => {
   const classes = useStyles();
   const { user, headline, location, bio, skills } = profile;
 
@@ -42,29 +48,39 @@ const ProfileDetail = ({ profile }) => {
 
   return (
     <div className={classes.root}>
-      <div className={classes.info}>
-        <Avatar className={classes.avatar}>
-          <Typography variant="h4">{nameInitials(user.name)}</Typography>
-        </Avatar>
-        <div>
-          <Typography variant="h5">{user.name}</Typography>
-          {headline && <Typography variant="body2">{headline}</Typography>}
-          {location && <Typography variant="body2">{location}</Typography>}
+      <div className={classes.top}>
+        <div className={classes.info}>
+          <Avatar className={classes.avatar}>
+            <Typography variant="h4">{nameInitials(user.name)}</Typography>
+          </Avatar>
+          <div>
+            <Typography variant="h5">{user.name}</Typography>
+            {headline && <Typography variant="body2">{headline}</Typography>}
+            {location && <Typography variant="body2">{location}</Typography>}
+          </div>
         </div>
+        {isCurrentUser && (
+          <IconButton
+            component={RouterLink}
+            to="/profile/edit"
+            className={classes.spacing}
+            variant="contained"
+            color="primary"
+          >
+            <EditIcon />
+          </IconButton>
+        )}
       </div>
       <div className={classes.spacing}>
         {bio && <Typography>{bio}</Typography>}
       </div>
       {skills && skills.length > 0 && (
-        <div>
-          <Divider />
-          <div className={classes.spacing}>
-            <Typography variant="h6">Skills</Typography>
-            <div className={classes.skill}>
-              {skills.map((skill, index) => (
-                <Chip key={index} label={skill} />
-              ))}
-            </div>
+        <div className={classes.spacing}>
+          <Typography variant="h6">Skills</Typography>
+          <div className={classes.skill}>
+            {skills.map((skill, index) => (
+              <Chip key={index} label={skill} />
+            ))}
           </div>
         </div>
       )}

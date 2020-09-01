@@ -1,5 +1,6 @@
 import axios from "axios";
 import { setAlert } from "./alert";
+import { initProfile } from "./profile";
 import {
   USER_LOADED,
   LOGIN_SUCCESS,
@@ -20,6 +21,8 @@ export const loadUser = () => async (dispatch) => {
       type: USER_LOADED,
       payload: res.data,
     });
+
+    return res.data._id;
   } catch (err) {
     dispatch({
       type: AUTH_ERROR,
@@ -73,7 +76,9 @@ export const signUp = (name, email, password) => async (dispatch) => {
       payload: res.data.token,
     });
 
-    dispatch(loadUser());
+    const userId = dispatch(loadUser());
+
+    dispatch(initProfile(userId));
 
     dispatch(setAlert("success", res.data.msg));
   } catch (err) {

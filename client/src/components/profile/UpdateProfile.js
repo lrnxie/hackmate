@@ -70,7 +70,7 @@ const UpdateProfile = ({
         if (key in profileData) profileData[key] = profile[key];
       }
       if (Array.isArray(profileData.skills))
-        profileData.skills = profileData.skills.join(", ");
+        profileData.skills = profileData.skills.join(",");
       setFormData(profileData);
     }
   }, [authLoading, profileLoading]);

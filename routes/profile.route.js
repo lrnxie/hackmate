@@ -3,6 +3,7 @@ const router = express.Router();
 const auth = require("../middleware/auth");
 const {
   getProfile,
+  initProfile,
   updateProfile,
   deleteProfile,
 } = require("../controllers/profile.controller");
@@ -10,7 +11,8 @@ const {
 router
   .route("/:userId")
   .get(getProfile)
-  .post(auth, updateProfile)
+  .post(auth, initProfile)
+  .put(auth, updateProfile)
   .delete(auth, deleteProfile);
 
 module.exports = router;
