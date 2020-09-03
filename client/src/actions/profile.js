@@ -2,9 +2,7 @@ import axios from "axios";
 import { setAlert } from "./alert";
 import {
   GET_PROFILE,
-  INIT_PROFILE,
   UPDATE_PROFILE,
-  DELETE_PROFILE,
   CLEAR_PROFILE,
   UPDATE_PROFILE_ERROR,
   PROFILE_ERROR,
@@ -15,16 +13,6 @@ export const getProfile = (userId) => async (dispatch) => {
     const res = await axios.get(`/api/profile/${userId}`);
 
     dispatch({ type: GET_PROFILE, payload: res.data });
-  } catch (err) {
-    dispatch({ type: PROFILE_ERROR });
-  }
-};
-
-export const initProfile = (userId) => async (dispatch) => {
-  try {
-    await axios.post(`/api/profile/${userId}`);
-
-    dispatch({ type: INIT_PROFILE });
   } catch (err) {
     dispatch({ type: PROFILE_ERROR });
   }
@@ -56,19 +44,6 @@ export const updateProfile = (profileData, userId, history) => async (
       errors.forEach((error) => dispatch(setAlert("warning", error)));
     }
 
-    dispatch({ type: UPDATE_PROFILE_ERROR });
-  }
-};
-
-export const deleteProfile = (userId) => async (dispatch) => {
-  try {
-    await axios.delete(`/api/profile/${userId}`);
-
-    dispatch({ type: DELETE_PROFILE });
-  } catch (err) {
-    if (err.response.status === 404) {
-      return dispatch({ type: CLEAR_PROFILE });
-    }
     dispatch({ type: UPDATE_PROFILE_ERROR });
   }
 };

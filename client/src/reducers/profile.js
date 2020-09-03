@@ -1,8 +1,6 @@
 import {
   GET_PROFILE,
-  INIT_PROFILE,
   UPDATE_PROFILE,
-  DELETE_PROFILE,
   CLEAR_PROFILE,
   UPDATE_PROFILE_ERROR,
   PROFILE_ERROR,
@@ -25,13 +23,6 @@ export default function (state = initialState, action) {
         loading: false,
       };
 
-    case INIT_PROFILE:
-      return {
-        ...state,
-        loading: true,
-      };
-
-    case DELETE_PROFILE:
     case CLEAR_PROFILE:
       return {
         ...state,

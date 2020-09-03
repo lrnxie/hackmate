@@ -9,7 +9,6 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogActions from "@material-ui/core/DialogActions";
 
 import { deleteUser } from "../../actions/auth";
-import { deleteProfile } from "../../actions/profile";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -18,12 +17,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const DeleteUser = ({ user, deleteUser, deleteProfile }) => {
+const DeleteUser = ({ user, deleteUser }) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
   const handleDelete = () => {
-    deleteProfile(user._id);
     deleteUser(user._id);
   };
 
@@ -63,6 +61,4 @@ const mapStateToProps = (state) => ({
   user: state.auth.user,
 });
 
-export default connect(mapStateToProps, { deleteUser, deleteProfile })(
-  DeleteUser
-);
+export default connect(mapStateToProps, { deleteUser })(DeleteUser);

@@ -1,6 +1,5 @@
 import axios from "axios";
 import { setAlert } from "./alert";
-import { initProfile } from "./profile";
 import {
   USER_LOADED,
   LOGIN_SUCCESS,
@@ -10,7 +9,6 @@ import {
   UPDATE_USER,
   DELETE_USER,
   UPDATE_ERROR,
-  CLEAR_PROFILE,
 } from "./actionTypes";
 
 export const loadUser = () => async (dispatch) => {
@@ -76,9 +74,7 @@ export const signUp = (name, email, password) => async (dispatch) => {
       payload: res.data.token,
     });
 
-    const userId = dispatch(loadUser());
-
-    dispatch(initProfile(userId));
+    dispatch(loadUser());
 
     dispatch(setAlert("success", res.data.msg));
   } catch (err) {
@@ -94,7 +90,6 @@ export const signUp = (name, email, password) => async (dispatch) => {
 
 export const logOut = () => (dispatch) => {
   dispatch({ type: LOGOUT });
-  dispatch({ type: CLEAR_PROFILE });
   dispatch(setAlert("info", "You have logged out"));
 };
 
