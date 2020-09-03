@@ -26,26 +26,6 @@ exports.getProfile = async (req, res) => {
   }
 };
 
-// @desc    Initialize user profile when create account
-// @route   POST /api/profile/:userId
-// @access  Private
-exports.initProfile = async (req, res) => {
-  try {
-    const authUserId = req.userId;
-
-    const profile = new Profile({
-      user: authUserId,
-    });
-
-    await profile.save();
-  } catch (err) {
-    console.log(err);
-    return res.status(500).json({
-      error: "Server error",
-    });
-  }
-};
-
 // @desc    Update user own profile
 // @route   PUT /api/profile/:userId
 // @access  Private
@@ -96,18 +76,26 @@ exports.updateProfile = async (req, res) => {
   }
 };
 
-// @desc    Delete user own profile
-// @route   DELETE /api/profile/:userId
-// @access  Private
+// Initialize user profile when create account
+exports.initProfile = async (req, res) => {
+  try {
+    const profile = new Profile({
+      user: res.locals.userId,
+    });
+
+    await profile.save();
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      error: "Server error",
+    });
+  }
+};
+
+// Delete user profile when delete account
 exports.deleteProfile = async (req, res) => {
   try {
-    // Only allow user to update own profile
-    const authUserId = req.userId;
-    if (req.params.userId !== authUserId) {
-      return res.status(401).json({ error: ["Authorization denied"] });
-    }
-
-    const profile = await Profile.findOne({ user: authUserId });
+    const profile = await Profile.findOne({ user: res.locals.userId });
 
     if (!profile) {
       return res.status(404).json({ error: ["Profile not found"] });
@@ -115,7 +103,7 @@ exports.deleteProfile = async (req, res) => {
 
     await profile.remove();
 
-    return res.status(200).json({ msg: "Profile deleted" });
+    return res.status(200).json({ msg: "User and profile deleted" });
   } catch (err) {
     if (err.name === "CastError") {
       return res.status(400).json({ error: ["Invalid user ID"] });

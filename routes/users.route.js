@@ -7,9 +7,16 @@ const {
   deleteUser,
   updateUser,
 } = require("../controllers/users.controller");
+const {
+  initProfile,
+  deleteProfile,
+} = require("../controllers/profile.controller");
 
-router.route("/").get(getUsers).post(addUser);
+router.route("/").get(getUsers).post(addUser, initProfile);
 
-router.route("/:userId").delete(auth, deleteUser).put(auth, updateUser);
+router
+  .route("/:userId")
+  .delete(auth, deleteUser, deleteProfile)
+  .put(auth, updateUser);
 
 module.exports = router;

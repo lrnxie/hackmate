@@ -24,7 +24,7 @@ exports.getUsers = async (req, res) => {
 // @desc    Create a new user
 // @route   POST /api/users
 // @access  Public
-exports.addUser = async (req, res) => {
+exports.addUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
@@ -58,9 +58,13 @@ exports.addUser = async (req, res) => {
       { expiresIn: "1d" },
       (err, token) => {
         if (err) throw err;
-        return res.status(201).json({ msg: "New user sign up success", token });
+        res.status(201).json({ msg: "New user sign up success", token });
       }
     );
+
+    res.locals.userId = newUser.id;
+
+    next();
   } catch (err) {
     if (err.name === "ValidationError") {
       const errMsg = Object.values(err.errors).map((val) => val.message);
@@ -79,7 +83,7 @@ exports.addUser = async (req, res) => {
 // @desc    Delete a user
 // @route   DELETE /api/users/:userId
 // @access  Private
-exports.deleteUser = async (req, res) => {
+exports.deleteUser = async (req, res, next) => {
   try {
     // Only allow user to delete his own account
     const authUserId = req.userId;
@@ -95,7 +99,9 @@ exports.deleteUser = async (req, res) => {
 
     await user.remove();
 
-    return res.status(200).json({ msg: "User deleted" });
+    res.locals.userId = authUserId;
+
+    next();
   } catch (err) {
     if (err.name === "CastError") {
       return res.status(400).json({ error: ["Invalid user ID"] });
