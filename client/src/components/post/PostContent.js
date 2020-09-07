@@ -15,6 +15,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Checkbox from "@material-ui/core/Checkbox";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import DeleteIcon from "@material-ui/icons/Delete";
+import PersonIcon from "@material-ui/icons/Person";
 
 import { deletePost, addLike, removeLike } from "../../actions/post";
 
@@ -44,7 +45,8 @@ const PostContent = ({
   const classes = useStyles();
 
   const [liked, setLiked] = useState(
-    currentUser && post.likes.some((like) => like.user === currentUser._id)
+    currentUser &&
+      post.likes.some((like) => like.user && like.user._id === currentUser._id)
   );
 
   const handleChange = (e) => {
@@ -63,7 +65,10 @@ const PostContent = ({
 
   useEffect(() => {
     setLiked(
-      currentUser && post.likes.some((like) => like.user === currentUser._id)
+      currentUser &&
+        post.likes.some(
+          (like) => like.user && like.user._id === currentUser._id
+        )
     );
   }, [currentUser]);
 
@@ -72,24 +77,34 @@ const PostContent = ({
       <Card variant="outlined">
         <CardHeader
           avatar={
-            <Avatar
-              component={RouterLink}
-              to={`/profile/${post.user}`}
-              className={classes.noUnderline}
-            >
-              {post.name[0]}
-            </Avatar>
+            post.user ? (
+              <Avatar
+                component={RouterLink}
+                to={`/profile/${post.user._id}`}
+                className={classes.noUnderline}
+              >
+                {post.user.name[0]}
+              </Avatar>
+            ) : (
+              <Avatar>
+                <PersonIcon />
+              </Avatar>
+            )
           }
           title={
-            <Typography
-              component={RouterLink}
-              to={`/profile/${post.user}`}
-              className={classes.noUnderline}
-              variant="body2"
-              color="inherit"
-            >
-              {post.name}
-            </Typography>
+            post.user ? (
+              <Typography
+                component={RouterLink}
+                to={`/profile/${post.user._id}`}
+                className={classes.noUnderline}
+                variant="body2"
+                color="inherit"
+              >
+                {post.user.name}
+              </Typography>
+            ) : (
+              <Typography variant="body2">[UserDeleted]</Typography>
+            )
           }
           subheader={moment(post.createdAt).format("MMMM Do YYYY, h:mm a")}
         />
@@ -110,7 +125,7 @@ const PostContent = ({
             <Typography variant="body2">{post.likes.length}</Typography>
           </div>
 
-          {currentUser && currentUser._id === post.user && (
+          {currentUser && post.user && currentUser._id === post.user._id && (
             <div className={classes.action}>
               <IconButton onClick={handleDelete}>
                 <DeleteIcon />

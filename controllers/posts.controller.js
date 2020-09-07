@@ -6,15 +6,13 @@ const User = require("../models/User");
 // @access  Private
 exports.createPost = async (req, res) => {
   try {
-    const user = await User.findById(req.userId).select("-password");
-
     const newPost = new Post({
       user: req.userId,
-      name: user.name,
       content: req.body.content,
     });
 
-    const post = await newPost.save();
+    let post = await newPost.save();
+    post = await newPost.populate("user", "_id name").execPopulate();
 
     return res.status(201).json({ msg: "New post created", post });
   } catch (err) {
@@ -37,7 +35,12 @@ exports.createPost = async (req, res) => {
 // @access  Public
 exports.getAllPosts = async (req, res) => {
   try {
-    const posts = await Post.find().sort({ createdAt: -1 });
+    const posts = await Post.find()
+      .populate("user", "_id name")
+      .populate("likes.user", "_id name")
+      .populate("comments.user", "_id name")
+      .sort({ createdAt: -1 });
+
     return res.status(200).json(posts);
   } catch (err) {
     console.log(err);
@@ -52,9 +55,11 @@ exports.getAllPosts = async (req, res) => {
 // @access  Public
 exports.getPostsByUser = async (req, res) => {
   try {
-    const posts = await Post.find({ user: req.params.userId }).sort({
-      createdAt: -1,
-    });
+    const posts = await Post.find({ user: req.params.userId })
+      .populate("user", "_id name")
+      .populate("likes.user", "_id name")
+      .populate("comments.user", "_id name")
+      .sort({ createdAt: -1 });
 
     return res.status(200).json(posts);
   } catch (err) {
@@ -74,7 +79,10 @@ exports.getPostsByUser = async (req, res) => {
 // @access  Public
 exports.getPostById = async (req, res) => {
   try {
-    const post = await Post.findById(req.params.postId);
+    const post = await Post.findById(req.params.postId)
+      .populate("user", "_id name")
+      .populate("likes.user", "_id name")
+      .populate("comments.user", "_id name");
 
     if (!post) {
       return res.status(404).json({ error: "Post not found" });
@@ -214,9 +222,13 @@ exports.commentPost = async (req, res) => {
 
     post.comments.unshift(newComment);
 
-    await post.save();
+    let updatedPost = await post.save();
 
-    return res.status(201).json({ comments: post.comments });
+    updatedPost = await updatedPost
+      .populate("comments.user", "_id name")
+      .execPopulate();
+
+    return res.status(201).json({ comments: updatedPost.comments });
   } catch (err) {
     if (err.name === "ValidationError") {
       const errMsg = Object.values(err.errors).map((val) => val.message);

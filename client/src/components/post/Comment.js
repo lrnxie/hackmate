@@ -9,6 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
+import PersonIcon from "@material-ui/icons/Person";
 
 import { deleteComment } from "../../actions/post";
 
@@ -32,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Comment = ({
   currentUser,
-  comment: { _id, user, name, content, createdAt },
+  comment: { _id, user, content, createdAt },
   postId,
   deleteComment,
 }) => {
@@ -42,25 +43,35 @@ const Comment = ({
     <Card className={classes.root} variant="outlined">
       <CardHeader
         avatar={
-          <Avatar
-            component={RouterLink}
-            to={`/profile/${user}`}
-            className={classes.link}
-          >
-            {name[0]}
-          </Avatar>
+          user ? (
+            <Avatar
+              component={RouterLink}
+              to={`/profile/${user._id}`}
+              className={classes.link}
+            >
+              {user.name[0]}
+            </Avatar>
+          ) : (
+            <Avatar>
+              <PersonIcon />
+            </Avatar>
+          )
         }
         title={
           <div className={classes.title}>
-            <Typography
-              component={RouterLink}
-              to={`/profile/${user}`}
-              className={classes.link}
-              variant="body2"
-              color="textPrimary"
-            >
-              {name}
-            </Typography>
+            {user ? (
+              <Typography
+                component={RouterLink}
+                to={`/profile/${user._id}`}
+                className={classes.link}
+                variant="body2"
+                color="textPrimary"
+              >
+                {user.name}
+              </Typography>
+            ) : (
+              <Typography variant="body2">[UserDeleted]</Typography>
+            )}
             <Typography
               className={classes.margin}
               variant="caption"
@@ -68,7 +79,7 @@ const Comment = ({
             >
               {moment(createdAt).fromNow("")}
             </Typography>
-            {currentUser && currentUser._id === user && (
+            {currentUser && user && currentUser._id === user._id && (
               <IconButton
                 className={classes.margin}
                 size="small"

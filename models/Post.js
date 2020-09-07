@@ -3,9 +3,7 @@ const mongoose = require("mongoose");
 const PostSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-  },
-  name: {
-    type: String,
+    ref: "User",
   },
   content: {
     type: String,
@@ -15,6 +13,7 @@ const PostSchema = new mongoose.Schema({
     {
       user: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
       },
     },
   ],
@@ -22,13 +21,11 @@ const PostSchema = new mongoose.Schema({
     {
       user: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
       },
       content: {
         type: String,
         required: "Comment content is required",
-      },
-      name: {
-        type: String,
       },
       createdAt: {
         type: Date,
