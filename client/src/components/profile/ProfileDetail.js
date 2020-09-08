@@ -6,6 +6,8 @@ import IconButton from "@material-ui/core/IconButton";
 import Avatar from "@material-ui/core/Avatar";
 import Chip from "@material-ui/core/Chip";
 import EditIcon from "@material-ui/icons/Edit";
+import WorkOutlineOutlinedIcon from "@material-ui/icons/WorkOutlineOutlined";
+import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,6 +28,13 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
     width: theme.spacing(10),
     height: theme.spacing(10),
+  },
+  withIcon: {
+    display: "flex",
+    alignItems: "center",
+    "& > *": {
+      marginRight: theme.spacing(0.5),
+    },
   },
   spacing: {
     margin: theme.spacing(2),
@@ -55,8 +64,18 @@ const ProfileDetail = ({ profile, isCurrentUser }) => {
           </Avatar>
           <div>
             <Typography variant="h5">{user.name}</Typography>
-            {headline && <Typography variant="body2">{headline}</Typography>}
-            {location && <Typography variant="body2">{location}</Typography>}
+            {headline && (
+              <Typography variant="body2" className={classes.withIcon}>
+                <WorkOutlineOutlinedIcon fontSize="small" />
+                {headline}
+              </Typography>
+            )}
+            {location && (
+              <Typography variant="body2" className={classes.withIcon}>
+                <LocationOnOutlinedIcon fontSize="small" />
+                {location}
+              </Typography>
+            )}
           </div>
         </div>
         {isCurrentUser && (
@@ -76,7 +95,6 @@ const ProfileDetail = ({ profile, isCurrentUser }) => {
       </div>
       {skills && skills.length > 0 && (
         <div className={classes.spacing}>
-          <Typography variant="h6">Skills</Typography>
           <div className={classes.skill}>
             {skills.map((skill, index) => (
               <Chip key={index} label={skill} />
